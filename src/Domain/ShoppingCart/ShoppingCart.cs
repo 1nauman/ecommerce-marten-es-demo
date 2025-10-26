@@ -4,22 +4,36 @@ namespace Domain.ShoppingCart;
 
 public class ShoppingCart : AggregateRoot
 {
-    private readonly List<ShoppingCartItem> _items = [];
-
-    private ShoppingCart()
-    {
-    }
-
     public Guid CustomerId { get; private set; }
-
     public ShoppingCartStatus Status { get; private set; }
 
-    public IReadOnlyCollection<ShoppingCartItem> Items => _items.AsReadOnly();
+    private readonly List<ShoppingCartItem> _items = new();
+    public IReadOnlyList<ShoppingCartItem> Items => _items.AsReadOnly();
+
+    /// <summary>
+    /// A private constructor is essential for event sourcing to ensure
+    /// that the aggregate can only be created by replaying events.
+    /// </summary>
+    private ShoppingCart() { }
+
+    // --- Event Dispatching ---
+
+    /// <summary>
+    /// This is the required implementation of the dispatch "bridge".
+    /// It uses dynamic dispatch to invoke the correct private Apply method
+    /// based on the runtime type of the event.
+    /// </summary>
+    /// <param name="event">The domain event to apply.</param>
+    protected override void Dispatch(DomainEvent @event) => Apply((dynamic)@event);
+
+    // --- Public Command Methods ---
+    // These methods represent the business operations that can be performed on the aggregate.
+    // They contain business logic, enforce invariants, and raise events upon success.
 
     public static ShoppingCart Open(Guid customerId)
     {
         var cart = new ShoppingCart();
-        var @event = new ShoppingCartOpened(cart.Id, customerId);
+        var @event = new ShoppingCartOpened(Guid.NewGuid(), customerId);
         cart.Raise(@event);
         return cart;
     }
@@ -27,15 +41,14 @@ public class ShoppingCart : AggregateRoot
     public void AddProduct(Guid productId, int quantity, Money price)
     {
         if (Status != ShoppingCartStatus.Pending)
-        {
-            throw new InvalidOperationException("Cannot add product to a cart that is not in pending state.");
-        }
+            throw new InvalidOperationException("Cannot add items to a non-pending shopping cart.");
 
-        var existingItem = _items.FirstOrDefault(x => x.ProductId == productId);
+        var existingItem = _items.FirstOrDefault(item => item.ProductId == productId);
+
         if (existingItem != null)
         {
-            // For simplicity, we'll just update quantity. A real system might have more complex logic.
-            // This logic does not generate a new event in this simplified example, but it could.
+            if (existingItem.Price.Currency != price.Currency)
+                throw new InvalidOperationException("Cannot add item with a different currency.");
             existingItem.AddQuantity(quantity);
         }
         else
@@ -45,7 +58,14 @@ public class ShoppingCart : AggregateRoot
         }
     }
 
-    // --- Private State Mutators (Apply methods) ---
+    // --- Private State Mutators ---
+    // These methods are the handlers that mutate the aggregate's state in response to an event.
+    // They should contain no business logic and only set property values.
+
+    // A TOUGH LESSON LEARNT:
+    // For Marten's default live aggregation to work correctly, these state-mutating
+    // methods MUST be named "Apply". Marten's convention-based discovery looks for
+    // methods with this specific name.
 
     private void Apply(ShoppingCartOpened @event)
     {

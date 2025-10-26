@@ -1,6 +1,19 @@
 @API_HostAddress = http://localhost:5101
+@shoppingCartId = 3b658564-3025-4cab-a6db-13e95443b12b
 
-GET {{API_HostAddress}}/weatherforecast/
+POST {{API_HostAddress}}/api/shopping-carts
 Accept: application/json
+Content-Type: application/json
 
+{
+  "customerId": "2F1C5229-C75C-4D55-85F7-F57B43682078"
+}
 ###
+
+POST {{API_HostAddress}}/api/shopping-carts/{{shoppingCartId}}/products
+Content-Type: application/json
+
+{
+  "productId": "E62EAF89-0918-4E13-8BCD-D9381D78FCE3",
+  "quantity": 7
+}
