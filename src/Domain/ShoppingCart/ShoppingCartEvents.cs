@@ -27,3 +27,9 @@ public record ShoppingCartConfirmed(
     Guid ShoppingCartId,
     DateTime ConfirmedAt
 ) : DomainEvent;
+
+public record ProductItemQuantityUpdated(
+    Guid ShoppingCartId,
+    Guid ProductId,
+    int NewQuantity
+) : DomainEvent;

@@ -49,13 +49,29 @@ public class ShoppingCart : AggregateRoot
         {
             if (existingItem.Price.Currency != price.Currency)
                 throw new InvalidOperationException("Cannot add item with a different currency.");
-            existingItem.AddQuantity(quantity);
+            var newQuantity = existingItem.Quantity + quantity;
+            var @event = new ProductItemQuantityUpdated(Id, productId, newQuantity);
+            Raise(@event);
         }
         else
         {
             var @event = new ProductItemAddedToShoppingCart(Id, productId, quantity, price);
             Raise(@event);
         }
+    }
+    
+    public void Confirm()
+    {
+        // 1. Enforce Invariants
+        if (Status != ShoppingCartStatus.Pending)
+            throw new InvalidOperationException("Only pending shopping carts can be confirmed.");
+
+        if (_items.Count == 0)
+            throw new InvalidOperationException("Cannot confirm an empty shopping cart.");
+
+        // 2. Raise the event
+        var @event = new ShoppingCartConfirmed(Id, DateTime.UtcNow);
+        Raise(@event);
     }
 
     // --- Private State Mutators ---
@@ -78,6 +94,17 @@ public class ShoppingCart : AggregateRoot
     {
         var newItem = ShoppingCartItem.Create(@event.ProductId, @event.Quantity, @event.Price);
         _items.Add(newItem);
+    }
+    
+    private void Apply(ProductItemQuantityUpdated @event)
+    {
+        var itemToUpdate = _items.First(item => item.ProductId == @event.ProductId);
+        itemToUpdate.UpdateQuantity(@event.NewQuantity);
+    }
+    
+    private void Apply(ShoppingCartConfirmed @event)
+    {
+        Status = ShoppingCartStatus.Confirmed;
     }
 }
 

@@ -37,4 +37,12 @@ public class ShoppingCartItem
 
         Quantity += quantity;
     }
+    
+    internal void UpdateQuantity(int newQuantity)
+    {
+        if (newQuantity <= 0)
+            throw new ArgumentOutOfRangeException(nameof(newQuantity), "New quantity must be greater than zero.");
+
+        Quantity = newQuantity;
+    }
 }

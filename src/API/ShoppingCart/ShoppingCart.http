@@ -1,0 +1,36 @@
+@API_HostAddress = http://localhost:5101/api
+@shoppingCartId = 99011fa8-5afe-4312-ad9b-aa100750f633
+@productId = d2ae02bd-ca78-4f51-9932-4d45bf570468
+
+### POST Open shopping cart
+POST {{API_HostAddress}}/shopping-carts
+Content-Type: application/json
+
+{
+  "customerId": "2F1C5229-C75C-4D55-85F7-F57B43682078"
+}
+
+###
+
+### POST Add product to cart
+POST {{API_HostAddress}}/shopping-carts/{{shoppingCartId}}/products
+Content-Type: application/json
+
+{
+  "productId": "{{productId}}",
+  "quantity": 6
+}
+
+###
+
+### GET Get shopping cart summary
+GET {{API_HostAddress}}/shopping-carts/{{shoppingCartId}}
+Content-Type: application/json
+
+###
+
+### PUT Confirm/checkout a shopping cart
+PUT {{API_HostAddress}}/shopping-carts/{{shoppingCartId}}/confirm
+Content-Type: application/json
+
+###

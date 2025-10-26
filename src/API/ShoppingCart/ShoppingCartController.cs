@@ -46,6 +46,16 @@ public class ShoppingCartController : Controller
 
         return summary is not null ? Ok(summary) : NotFound();
     }
+    
+    [HttpPut("{shoppingCartId:guid}/confirm")]
+    public async Task<IActionResult> ConfirmShoppingCart([FromRoute] Guid shoppingCartId)
+    {
+        var command = new ConfirmShoppingCartCommand(shoppingCartId);
+
+        await _sender.Send(command);
+
+        return NoContent();
+    }
 }
 
 // This is a Data Transfer Object (DTO) used to bind the incoming JSON request.

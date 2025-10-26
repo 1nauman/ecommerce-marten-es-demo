@@ -54,4 +54,33 @@ public class ShoppingCartSummaryProjection : SingleStreamProjection<ShoppingCart
             TotalPrice = new MoneyModel(totalPriceAmount, currency)
         };
     }
+
+    public ShoppingCartSummary Apply(ProductItemQuantityUpdated @event, ShoppingCartSummary current)
+    {
+        // Find the item to update in our read model
+        var itemToUpdate = current.Items.First(i => i.ProductId == @event.ProductId);
+        var updatedItems = new List<ShoppingCartSummary.ShoppingCartItemSummary>(current.Items);
+
+        // Create a new summary item with the updated quantity
+        updatedItems.Remove(itemToUpdate);
+        updatedItems.Add(itemToUpdate with { Quantity = @event.NewQuantity });
+
+        // Recalculate the total price
+        var totalPriceAmount = updatedItems.Sum(item => item.Price.Amount * item.Quantity);
+        var currency = updatedItems.First().Price.Currency;
+
+        return current with
+        {
+            Items = updatedItems,
+            TotalPrice = new MoneyModel(totalPriceAmount, currency)
+        };
+    }
+
+    public ShoppingCartSummary Apply(ShoppingCartConfirmed @event, ShoppingCartSummary current)
+    {
+        return current with
+        {
+            Status = ShoppingCartStatus.Confirmed.ToString()
+        };
+    }
 }

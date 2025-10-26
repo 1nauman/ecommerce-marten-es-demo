@@ -9,26 +9,34 @@ public record AddProductToShoppingCart(Guid ShoppingCartId, Guid ProductId, int 
 public class AddProductToShoppingCartHandler : IRequestHandler<AddProductToShoppingCart>
 {
     private readonly IShoppingCartRepository _shoppingCartRepository;
+    private readonly IProductRepository _productRepository;
 
-    public AddProductToShoppingCartHandler(IShoppingCartRepository shoppingCartRepository)
+    public AddProductToShoppingCartHandler(IShoppingCartRepository shoppingCartRepository,
+        IProductRepository productRepository)
     {
         ArgumentNullException.ThrowIfNull(shoppingCartRepository);
+        ArgumentNullException.ThrowIfNull(productRepository);
+
         _shoppingCartRepository = shoppingCartRepository;
+        _productRepository = productRepository;
     }
 
     public async Task Handle(AddProductToShoppingCart request, CancellationToken cancellationToken)
     {
-        var shoppingCart = await _shoppingCartRepository.GetByIdAsync(request.ShoppingCartId, cancellationToken);
+        var product = await _productRepository.GetByIdAsync(request.ProductId, cancellationToken);
+        if (product is null)
+        {
+            throw new InvalidOperationException($"Product not found for Id: {request.ProductId}.");
+        }
 
+        var shoppingCart = await _shoppingCartRepository.GetByIdAsync(request.ShoppingCartId, cancellationToken);
         if (shoppingCart is null)
         {
             throw new InvalidOperationException("Shopping cart not found.");
         }
-        
-        var productPrice = Money.Create(100, "USD");
-        
-        shoppingCart.AddProduct(request.ProductId, request.Quantity, productPrice);
-        
+
+        shoppingCart.AddProduct(product.Id, request.Quantity, product.Price);
+
         await _shoppingCartRepository.UpdateAsync(shoppingCart, cancellationToken);
     }
 }
