@@ -1,0 +1,11 @@
+@API_HostAddress = http://localhost:5101/api
+
+### POST Register new customer
+POST {{API_HostAddress}}/customers
+Content-Type: application/json
+
+{
+  "name": "Ethan Hunt",
+  "email": "ethan.h@mission-impossible.com"
+}
+###

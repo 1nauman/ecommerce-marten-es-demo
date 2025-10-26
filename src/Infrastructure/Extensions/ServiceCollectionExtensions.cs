@@ -1,5 +1,4 @@
 using Application.Abstractions;
-using Domain.SharedKernel;
 using Infrastructure.Projections;
 using Infrastructure.Repositories;
 using Infrastructure.Serialization;
@@ -24,10 +23,7 @@ public static class ServiceCollectionExtensions
                 options.Connection(connectionString!);
                 options.Projections.Add<ShoppingCartSummaryProjection>(ProjectionLifecycle.Inline);
                 options.UseSystemTextJsonForSerialization(EnumStorage.AsString, Casing.CamelCase,
-                    serializerOptions =>
-                    {
-                        serializerOptions.Converters.Add(new MoneyConverter());
-                    });
+                    serializerOptions => { serializerOptions.Converters.Add(new MoneyConverter()); });
             })
             .UseLightweightSessions(); // Use lightweight sessions for better performance
 
@@ -36,6 +32,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IShoppingCartReadRepository, ShoppingCartReadRepository>();
 
         services.AddScoped<IProductRepository, ProductRepository>();
+
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         return services;
     }

@@ -1,5 +1,4 @@
 using Application.Abstractions;
-using Domain.SharedKernel;
 using MediatR;
 
 namespace Application.ShoppingCart.Commands;

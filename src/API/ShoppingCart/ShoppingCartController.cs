@@ -7,7 +7,7 @@ namespace API.ShoppingCart;
 
 [ApiController]
 [Route("api/shopping-carts")]
-public class ShoppingCartController : Controller
+public class ShoppingCartController : ControllerBase
 {
     private readonly ISender _sender;
 
