@@ -1,4 +1,5 @@
 using Application.ShoppingCart.Commands;
+using Application.ShoppingCart.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,16 @@ public class ShoppingCartController : Controller
         await _sender.Send(command);
 
         return NoContent();
+    }
+
+    [HttpGet("{shoppingCartId:guid}")]
+    public async Task<IActionResult> GetShoppingCartSummary([FromRoute] Guid shoppingCartId)
+    {
+        var query = new GetShoppingCartSummaryQuery(shoppingCartId);
+
+        var summary = await _sender.Send(query);
+
+        return summary is not null ? Ok(summary) : NotFound();
     }
 }
 

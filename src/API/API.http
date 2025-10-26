@@ -1,5 +1,5 @@
 @API_HostAddress = http://localhost:5101
-@shoppingCartId = 3b658564-3025-4cab-a6db-13e95443b12b
+@shoppingCartId = f74706ee-07a3-4182-b8c3-0d23930ce97c
 
 POST {{API_HostAddress}}/api/shopping-carts
 Accept: application/json
@@ -14,6 +14,9 @@ POST {{API_HostAddress}}/api/shopping-carts/{{shoppingCartId}}/products
 Content-Type: application/json
 
 {
-  "productId": "E62EAF89-0918-4E13-8BCD-D9381D78FCE3",
-  "quantity": 7
+  "productId": "76BE116D-8D94-4C36-9504-C49B440FBBD8",
+  "quantity": 3
 }
+
+###
+GET {{API_HostAddress}}/api/shopping-carts/{{shoppingCartId}}

@@ -1,6 +1,8 @@
 using Application.Abstractions;
 using Domain.SharedKernel;
+using Infrastructure.Projections;
 using Infrastructure.Repositories;
+using JasperFx.Events.Projections;
 using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,11 +17,16 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("Database");
 
         // Configure and register Marten
-        services.AddMarten(options => { options.Connection(connectionString!); })
+        services.AddMarten(options =>
+            {
+                options.Connection(connectionString!);
+                options.Projections.Add<ShoppingCartSummaryProjection>(ProjectionLifecycle.Inline);
+            })
             .UseLightweightSessions(); // Use lightweight sessions for better performance
 
         // Register our repository implementation
         services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+        services.AddScoped<IShoppingCartReadRepository, ShoppingCartReadRepository>();
 
         return services;
     }
