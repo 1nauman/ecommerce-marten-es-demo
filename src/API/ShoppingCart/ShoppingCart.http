@@ -1,24 +1,36 @@
 @API_HostAddress = http://localhost:5101/api
-@shoppingCartId = 99011fa8-5afe-4312-ad9b-aa100750f633
-@productId = d2ae02bd-ca78-4f51-9932-4d45bf570468
+@shoppingCartId = 209bb7ee-d910-420a-a89f-6655c5d668d6
+@iPhoneProductId = d2ae02bd-ca78-4f51-9932-4d45bf570468
+@macbookProProductId = d04dfcbe-ad56-43bf-9d0f-734af0c442fc
 
 ### POST Open shopping cart
 POST {{API_HostAddress}}/shopping-carts
 Content-Type: application/json
 
 {
-  "customerId": "2F1C5229-C75C-4D55-85F7-F57B43682078"
+  "customerId": "2F1C5229-C75C-4D55-85F7-F57B43682079"
 }
 
 ###
 
-### POST Add product to cart
+### POST Add iPhone to cart
 POST {{API_HostAddress}}/shopping-carts/{{shoppingCartId}}/products
 Content-Type: application/json
 
 {
-  "productId": "{{productId}}",
-  "quantity": 6
+  "productId": "{{iPhoneProductId}}",
+  "quantity": 1
+}
+
+###
+
+### POST Add Macbook Pro to cart
+POST {{API_HostAddress}}/shopping-carts/{{shoppingCartId}}/products
+Content-Type: application/json
+
+{
+  "productId": "{{macbookProProductId}}",
+  "quantity": 1
 }
 
 ###

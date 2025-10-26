@@ -1,6 +1,6 @@
 @API_HostAddress = http://localhost:5101/api
 
-### POST Create new Product
+### POST Create new Product iPhone 17
 POST {{API_HostAddress}}/products
 Content-Type: application/json
 
@@ -8,6 +8,19 @@ Content-Type: application/json
   "name": "iPhone 17 Pro Max - 256 gb",
   "price": {
     "amount": 1199,
+    "currency": "USD"
+  }
+}
+###
+
+### POST Create new Product Macbook Pro
+POST {{API_HostAddress}}/products
+Content-Type: application/json
+
+{
+  "name": "Macbook Pro, 14-inch, M5, 16 gb Unified Memory, 512 gb SSD Storage",
+  "price": {
+    "amount": 1599,
     "currency": "USD"
   }
 }
