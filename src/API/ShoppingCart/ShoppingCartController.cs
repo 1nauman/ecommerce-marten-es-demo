@@ -1,6 +1,8 @@
 using Application.ShoppingCart.Commands;
 using Application.ShoppingCart.Queries;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.ShoppingCart;
@@ -46,7 +48,7 @@ public class ShoppingCartController : ControllerBase
 
         return summary is not null ? Ok(summary) : NotFound();
     }
-    
+
     [HttpPut("{shoppingCartId:guid}/confirm")]
     public async Task<IActionResult> ConfirmShoppingCart([FromRoute] Guid shoppingCartId)
     {

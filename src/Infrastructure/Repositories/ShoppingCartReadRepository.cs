@@ -1,5 +1,6 @@
 using Application.Abstractions;
 using Application.ReadModels;
+
 using Marten;
 
 namespace Infrastructure.Repositories;

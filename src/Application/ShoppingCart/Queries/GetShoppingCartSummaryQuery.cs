@@ -1,5 +1,6 @@
 using Application.Abstractions;
 using Application.ReadModels;
+
 using MediatR;
 
 namespace Application.ShoppingCart.Queries;

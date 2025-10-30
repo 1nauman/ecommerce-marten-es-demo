@@ -1,5 +1,7 @@
 using Application.Abstractions;
+
 using MediatR;
+
 using SC = Domain.ShoppingCart;
 
 namespace Application.ShoppingCart.Commands;

@@ -23,7 +23,7 @@ public class Customer : AggregateRoot
         customer.Raise(@event);
         return customer;
     }
-    
+
     public void UpdateShippingAddress(Address newAddress)
     {
         var @event = new ShippingAddressUpdated(Id, newAddress);

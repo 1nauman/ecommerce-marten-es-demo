@@ -59,7 +59,7 @@ public class ShoppingCart : AggregateRoot
             Raise(@event);
         }
     }
-    
+
     public void Confirm()
     {
         // 1. Enforce Invariants
@@ -95,13 +95,13 @@ public class ShoppingCart : AggregateRoot
         var newItem = ShoppingCartItem.Create(@event.ProductId, @event.Quantity, @event.Price);
         _items.Add(newItem);
     }
-    
+
     private void Apply(ProductItemQuantityUpdated @event)
     {
         var itemToUpdate = _items.First(item => item.ProductId == @event.ProductId);
         itemToUpdate.UpdateQuantity(@event.NewQuantity);
     }
-    
+
     private void Apply(ShoppingCartConfirmed @event)
     {
         Status = ShoppingCartStatus.Confirmed;

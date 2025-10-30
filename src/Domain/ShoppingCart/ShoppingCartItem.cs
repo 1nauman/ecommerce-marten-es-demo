@@ -37,7 +37,7 @@ public class ShoppingCartItem
 
         Quantity += quantity;
     }
-    
+
     internal void UpdateQuantity(int newQuantity)
     {
         if (newQuantity <= 0)

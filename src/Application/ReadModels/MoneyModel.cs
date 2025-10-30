@@ -8,7 +8,7 @@ namespace Application.ReadModels;
 public record MoneyModel
 {
     public static MoneyModel Invalid => new(0, string.Empty);
-    
+
     public MoneyModel(decimal amount, string currency)
     {
         Amount = amount;
@@ -19,4 +19,6 @@ public record MoneyModel
     public string Currency { get; init; } = string.Empty;
 
     public static MoneyModel FromDomain(Money money) => new(money.Amount, money.Currency);
+    
+    public Money ToDomain() => Money.Create(Amount, Currency);
 }

@@ -1,5 +1,7 @@
 using Application.ReadModels;
+
 using Domain.ShoppingCart;
+
 using Marten.Events.Aggregation;
 
 namespace Infrastructure.Projections;

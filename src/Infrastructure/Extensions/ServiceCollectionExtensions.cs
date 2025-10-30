@@ -1,11 +1,18 @@
 using Application.Abstractions;
+
+using Infrastructure.Processes;
 using Infrastructure.Projections;
 using Infrastructure.Repositories;
 using Infrastructure.Serialization;
+
+using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
+
 using Marten;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using Weasel.Core;
 
 namespace Infrastructure.Extensions;
@@ -25,15 +32,16 @@ public static class ServiceCollectionExtensions
                 options.UseSystemTextJsonForSerialization(EnumStorage.AsString, Casing.CamelCase,
                     serializerOptions => { serializerOptions.Converters.Add(new MoneyConverter()); });
             })
+            .AddSubscriptionWithServices<ShoppingCartCheckoutProcessManager>(ServiceLifetime.Scoped)
+            .AddAsyncDaemon(DaemonMode.Solo)
             .UseLightweightSessions(); // Use lightweight sessions for better performance
 
         // Register our repository implementation
         services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
         services.AddScoped<IShoppingCartReadRepository, ShoppingCartReadRepository>();
-
         services.AddScoped<IProductRepository, ProductRepository>();
-
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
 
         return services;
     }

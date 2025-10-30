@@ -1,5 +1,7 @@
 using Application.Abstractions;
+
 using MediatR;
+
 using CD = Domain.Customer;
 
 namespace Application.Customer.Commands;

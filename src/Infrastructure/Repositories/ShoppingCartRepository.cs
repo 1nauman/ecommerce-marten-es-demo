@@ -1,5 +1,7 @@
 using Application.Abstractions;
+
 using Domain.ShoppingCart;
+
 using Marten;
 
 namespace Infrastructure.Repositories;

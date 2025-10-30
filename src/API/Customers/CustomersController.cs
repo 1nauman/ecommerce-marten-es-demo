@@ -1,5 +1,7 @@
 using Application.Customer.Commands;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Customers;

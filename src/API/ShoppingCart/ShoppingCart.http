@@ -1,14 +1,15 @@
 @API_HostAddress = http://localhost:5101/api
-@shoppingCartId = 209bb7ee-d910-420a-a89f-6655c5d668d6
-@iPhoneProductId = d2ae02bd-ca78-4f51-9932-4d45bf570468
-@macbookProProductId = d04dfcbe-ad56-43bf-9d0f-734af0c442fc
+@shoppingCartId = 2bcc663e-cfca-4f5c-8b48-79aabdf4d55a
+@iPhoneProductId = 9725e051-a46e-4c6e-a0f6-b1d476fef590
+@macbookProProductId = 8d644e25-0ee5-4710-84ff-0cae051597e5
+@customerId = 6b50d3c2-d155-4315-b0b2-427e69a41322
 
 ### POST Open shopping cart
 POST {{API_HostAddress}}/shopping-carts
 Content-Type: application/json
 
 {
-  "customerId": "2F1C5229-C75C-4D55-85F7-F57B43682079"
+  "customerId": "{{customerId}}"
 }
 
 ###

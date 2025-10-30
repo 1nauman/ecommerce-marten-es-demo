@@ -1,6 +1,7 @@
-using Domain.SharedKernel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+using Domain.SharedKernel;
 
 namespace Infrastructure.Serialization;
 

@@ -1,4 +1,5 @@
 using Application.Abstractions;
+
 using MediatR;
 
 namespace Application.ShoppingCart.Commands;

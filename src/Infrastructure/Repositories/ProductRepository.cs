@@ -1,5 +1,7 @@
 using Application.Abstractions;
+
 using Domain.Product;
+
 using Marten;
 
 namespace Infrastructure.Repositories;

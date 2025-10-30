@@ -1,6 +1,8 @@
 using Application.Product.Commands;
 using Application.ReadModels;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Products;

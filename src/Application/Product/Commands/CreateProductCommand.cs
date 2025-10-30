@@ -1,6 +1,8 @@
 using Application.Abstractions;
 using Application.ReadModels; // For MoneyModel
+
 using Domain.SharedKernel;
+
 using MediatR;
 
 namespace Application.Product.Commands;
