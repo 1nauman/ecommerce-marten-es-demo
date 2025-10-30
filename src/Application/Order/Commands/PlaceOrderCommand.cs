@@ -1,10 +1,10 @@
 using Application.Abstractions;
 
-using DO = Domain.Order;
-
 using Domain.SharedKernel;
 
 using MediatR;
+
+using DO = Domain.Order;
 
 namespace Application.Order.Commands;
 

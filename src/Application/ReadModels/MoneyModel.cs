@@ -19,6 +19,6 @@ public record MoneyModel
     public string Currency { get; init; } = string.Empty;
 
     public static MoneyModel FromDomain(Money money) => new(money.Amount, money.Currency);
-    
+
     public Money ToDomain() => Money.Create(Amount, Currency);
 }
