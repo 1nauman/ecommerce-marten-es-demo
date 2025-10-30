@@ -4,7 +4,7 @@ This project is a sample e-commerce application built with .NET, demonstrating t
 
 ## Technologies
 
-*   .NET 8
+*   .NET 10
 *   ASP.NET Core
 *   Marten (Event Sourcing and Document DB on top of PostgreSQL)
 *   MediatR
