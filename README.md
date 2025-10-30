@@ -17,7 +17,7 @@ This project is a sample e-commerce application built with .NET, demonstrating t
 
 ### Prerequisites
 
-*   .NET 8 SDK
+*   .NET 10 SDK
 *   Docker (or a running instance of PostgreSQL)
 
 ### Installation
@@ -25,7 +25,7 @@ This project is a sample e-commerce application built with .NET, demonstrating t
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/oskardudycz/ecommerce-marten-es-demo.git
+    git clone https://github.com/1nauman/ecommerce-marten-es-demo.git
     ```
 
 2.  **Start the database:**
@@ -33,7 +33,7 @@ This project is a sample e-commerce application built with .NET, demonstrating t
     A `docker-compose.yml` file is provided to easily start a PostgreSQL instance.
 
     ```bash
-    docker-compose up -d
+    docker compose up -d
     ```
 
 3.  **Run the application:**
@@ -42,7 +42,7 @@ This project is a sample e-commerce application built with .NET, demonstrating t
     dotnet run --project src/API/API.csproj
     ```
 
-The API will be available at `http://localhost:5000`. You can access the Swagger UI at `http://localhost:5000/swagger`.
+The API will be available at `http://localhost:5101`. You can access the Swagger UI at `http://localhost:5000/swagger`.
 
 ## API Usage
 
